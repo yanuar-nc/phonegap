@@ -1,27 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
    <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <title>Future UI - Bootstrap 3 Skin</title>
-      <!-- #CSS Links -->
-	  <!-- Basic Styles -->
-      <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.css"/>
-      <link rel="stylesheet" type="text/css" href="assets/css/custom.css"/>
-      <link rel="stylesheet" type="text/css" href="assets/font-awesome/css/font-awesome.css"/>
-      <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-      <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-      <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-      <![endif]-->
-	  
-	  <!-- #GOOGLE FONT -->
-<!--       <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,300,500,700' rel='stylesheet' type='text/css'>
-      <link href='http://fonts.googleapis.com/css?family=Lato:400,100,300,700,900' rel='stylesheet' type='text/css'>
-      <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
- -->	  
       
    </head>
    
@@ -56,36 +35,18 @@
 	
  <!-- #BODY -->
    <body>
-	  
-<div class="panel panel-default">
-   <div class="panel-heading">
-      <h4>Books</h4>
-   </div>
-   <div class="panel-body">
-   <div class="table-responsive">
-      <table class="table table-striped">
-         <thead>
-            <tr>
-               <th>ISBN</th>
-               <th>Title</th>
-               <th>Subtitle</th>
-               <th>Publisher</th>
-            </tr>
-         </thead>
-         <tbody id="data">
-         </tbody>
-      </table>
-   </div>
-   </div>
+     <div id="data"></div>
+     <hr>
+      <div id="time"></div>
 	  <!-- #JS LINKS -->
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
       <script src="jquery.js"></script>
       <!-- Include all compiled plugins (below), or include individual files as needed -->
       <script src="assets/bootstrap/js/bootstrap.min.js"></script>
       <script>
-         var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6Im55bXBoZXRhbWluZSIsInBhc3N3b3JkIjoiZGFkMDhmZTJiMGU1N2FkOTc1NmRmNTY4MjMzOGVmZjAiLCJhcGlfa2V5IjoiNTIkUVNeT1ZOano0QW5iV2p3YnlaKkk4RiZNZ0lYWFJEUG0yWEZEU0pEcFg4ZFVtUF56TFZPI3RFLWcmeWspTyIsImxldmVsIjo5OSwic3RhdHVzIjoxfSwiaWF0IjoxNDY5NjExMDA1LCJleHAiOjE0Njk2OTc0MDV9.X2b6yiipX4AOq-NEOe0cWR7GDxUVRRRT5vPr14FTHyI';
          $(function(){
-            
+            start = new Date()
+
             // window.token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6Im55bXBoZXRhbWluZSIsInBhc3N3b3JkIjoiZGFkMDhmZTJiMGU1N2FkOTc1NmRmNTY4MjMzOGVmZjAiLCJhcGlfa2V5IjoiNTIkUVNeT1ZOano0QW5iV2p3YnlaKkk4RiZNZ0lYWFJEUG0yWEZEU0pEcFg4ZFVtUF56TFZPI3RFLWcmeWspTyIsImxldmVsIjo5OSwic3RhdHVzIjoxfSwiaWF0IjoxNDU2OTEzNzQwLCJleHAiOjE0NTcwMDAxNDB9.em7RBlLNg_5DJBd3T-m103BB_WvMY40KZG6q9hvF054';
             
             // $.post( 'http://localhost:2000/authenticate', { username: 'yanuar', key: 'af786c3031dd477ab59439fa2a219ddb' } )
@@ -93,13 +54,29 @@
             //    token = data.data.token;   
             //    console.log( token );
             // });
-            
-            $.get('http://192.168.43.179:2000/books?token=' + token, function(data) {
-               $.each( data.data.books, function (key, value ) {
-                  $( '#data' ).append( '<tr><td>' + value.issn + '</td><td>' + value.title + '</td><td>' + value.subtitle + '</td><td>' + value.publisher + '</td></tr>')
-               });
-               console.log( data );
-             });
+            // $.getJSON( 'http://localhost:2000/journals', null, function( json ) {
+
+               // console.log(typeof(JSON.stringify(json)))
+               // $('#data').html(JSON.stringify(json, null, '\t'));
+               // document.write(json);
+            // });
+            $.ajax({
+               url: 'http://10.0.13.35:2000/journals?limit=100',
+               success: function(json)
+               {
+                  $('#data').html(JSON.stringify(json, null, '\t'));
+                  responsetime = ( new Date() - start) / 10000;            
+                  $('#time').html( 'Process time execution: ' + responsetime + ' seconds');
+               }
+            })
+            // $.get('http://192.168.100.119:2000/journals?token=' + token, function(data) {
+
+               // document.body.appendChild(data)
+               // $.each( data.data.journals, function (key, value ) {
+               //    $( '#data' ).append( '<tr><td>' + value.issn + '</td><td>' + value.title + '</td><td>' + value.subtitle + '</td><td>' + value.publisher + '</td></tr>')
+               // });
+               // console.log( data );
+             // });
          });
       </script>
    </body>
