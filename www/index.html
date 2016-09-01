@@ -61,7 +61,7 @@
                // document.write(json);
             // });
             $.ajax({
-               url: 'http://10.0.13.35:2000/journals?limit=100',
+               url: 'http://10.0.13.35:2000/journals/detail/10',
                success: function(json)
                {
                   $('#data').html(JSON.stringify(json, null, '\t'));
