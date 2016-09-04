@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
    <head>
       
    </head>
@@ -34,49 +34,77 @@
 	-->
 	
  <!-- #BODY -->
-   <body>
-     <div id="data"></div>
+   <body ng-controller="myCtrl">
+     <div id="data">{{ data }}</div>
      <hr>
-      <div id="time"></div>
+      <div id="time">{{ time }}</div>
 	  <!-- #JS LINKS -->
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
       <script src="jquery.js"></script>
       <!-- Include all compiled plugins (below), or include individual files as needed -->
-      <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+      <!-- <script src="assets/bootstrap/js/bootstrap.min.js"></script> -->
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
       <script>
-         $(function(){
-            start = new Date()
 
-            // window.token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6Im55bXBoZXRhbWluZSIsInBhc3N3b3JkIjoiZGFkMDhmZTJiMGU1N2FkOTc1NmRmNTY4MjMzOGVmZjAiLCJhcGlfa2V5IjoiNTIkUVNeT1ZOano0QW5iV2p3YnlaKkk4RiZNZ0lYWFJEUG0yWEZEU0pEcFg4ZFVtUF56TFZPI3RFLWcmeWspTyIsImxldmVsIjo5OSwic3RhdHVzIjoxfSwiaWF0IjoxNDU2OTEzNzQwLCJleHAiOjE0NTcwMDAxNDB9.em7RBlLNg_5DJBd3T-m103BB_WvMY40KZG6q9hvF054';
-            
-            // $.post( 'http://localhost:2000/authenticate', { username: 'yanuar', key: 'af786c3031dd477ab59439fa2a219ddb' } )
-            // .done( function( data ) {
-            //    token = data.data.token;   
-            //    console.log( token );
+         start = new Date()
+         var app = angular.module('myApp', []);
+         app.controller('myCtrl', function($scope, $http) {
+
+            var host = 'http://192.168.43.179:2000';
+           // $http({
+           //   method : "GET",
+           //   url : "http://192.168.43.179:2000/journals/search/university",
+           //   headers: {
+           //        'Content-Type': 'application/x-www-form-urlencoded'
+           //  },
+           // }).then(function mySucces(response) {
+           //    $scope.data = response.data;
+           //    responsetime = ( new Date() - start) / 10000;  
+           //    $scope.time = responsetime;
+           //   }, function myError(response) {
+           //     $scope.data = response.status;
+           // });
+            // $http({
+            //     method : "POST",
+            //     data: {
+            //     "title": " The Effect of Applying Artificial Intelligence in Shaping Marketing Strategies: Field Study at the Jordanian Industrial Companies",
+            //     "author": "Dr. Ahmad Saleh Al-Sukkar, Dr. Al-Hareth Muhammad Musa Abu Hussein, Muhammad Mansour Abu Jalil",
+            //     "abstract": "This study aimed at identifying the effect of applying artificial intelligence in shaping marketing strategies in the industrial companies listed in Amman stock market. The sample consisted of (65) marketing managers of the companies incorporated in the study. The study revealed the existence of an effect of applying artificial intelligence in shaping marketing strategies (cost leadership, differentiation, focus, alliance, diversification and direct marketing). In the light of the results, the researchers offered a number of recommendations the most prominent of which are: Practicing better use of modern and developed technological programs based on artificial intelligence styles, connecting between the application of artificial intelligence styles and the development of marketing strategies in a way that fosters the attention to embrace developed new products and giving more care to the implementation of artificial intelligence styles.",
+            //     "keywords": "Artificial intelligence, marketing strategies, industrial companies",
+            //     "image": "http://www.ijastnet.com/ijast/public/images/cover_page.jpg",
+            //     "file": "http://www.ijastnet.com/journals/Vol_3_No_4_April_2013/1.pdf",
+            //     "issn": "2221-1004",
+            //     "publisher": "International Journal of Applied Science and Technology",
+            //     "volume": "3",
+            //     "page": "",
+            //     "number": "4",
+            //     "year": "2013",
+            //     "month": "4",
+            //     "day": ""
+            //     },
+            //     url : "http://192.168.43.179:2000/journals/add",
+            // }).then(function mySucces(response) {
+            //     $scope.data = response.data;
+            //     responsetime = ( new Date() - start) / 10000;  
+            //     $scope.time = responsetime;
+            // }, function myError(response) {
+            //     $scope.data = response.status;
             // });
-            // $.getJSON( 'http://localhost:2000/journals', null, function( json ) {
 
-               // console.log(typeof(JSON.stringify(json)))
-               // $('#data').html(JSON.stringify(json, null, '\t'));
-               // document.write(json);
-            // });
-            $.ajax({
-               url: 'http://10.0.13.35:2000/journals/detail/10',
-               success: function(json)
-               {
-                  $('#data').html(JSON.stringify(json, null, '\t'));
-                  responsetime = ( new Date() - start) / 10000;            
-                  $('#time').html( 'Process time execution: ' + responsetime + ' seconds');
-               }
-            })
-            // $.get('http://192.168.100.119:2000/journals?token=' + token, function(data) {
-
-               // document.body.appendChild(data)
-               // $.each( data.data.journals, function (key, value ) {
-               //    $( '#data' ).append( '<tr><td>' + value.issn + '</td><td>' + value.title + '</td><td>' + value.subtitle + '</td><td>' + value.publisher + '</td></tr>')
-               // });
-               // console.log( data );
-             // });
+            $http({
+                method : "PUT",
+                data: "title=Effect of Index Derivative Trading on Indian Stock Market: A Comparison of Pre and post Introduction",
+                url : host + "/journals/edit/116",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+            }).then(function mySucces(response) {
+                $scope.data = response.data;
+                responsetime = ( new Date() - start) / 10000;  
+                $scope.time = responsetime;
+            }, function myError(response) {
+                $scope.data = response.status;
+            });
          });
       </script>
    </body>
